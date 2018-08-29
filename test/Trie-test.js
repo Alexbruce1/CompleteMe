@@ -58,7 +58,16 @@ describe('SUGGEST', () => {
     trie = new Trie();
   });
   
-  it.skip('should ', () => {});
+  it('should be able to suggest words based on a prefix', () => {
+    trie.insert('apple');
+    trie.insert('applesauce');
+    trie.insert('ape');
+    console.log(JSON.stringify(trie, null, 4));
+
+    // console.log()
+    trie.suggest('ap');
+    // expect(Object.keys(trie.rootNode.children)).to.eq(['apple', 'ape']);
+  });
   
   it.skip('should ', () => {});
 
