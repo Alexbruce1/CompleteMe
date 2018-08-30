@@ -1,6 +1,9 @@
 import { expect, assert } from 'chai';
 import Trie from '../lib/Trie';
-// import Node from '../lib/Node';
+import fs from 'fs';
+
+const text = "/usr/share/dict/words";
+const dictionary = fs.readFileSync(text).toString().trim().split('\n');
 
 describe('Trie', () => {
   let trie;
@@ -43,8 +46,7 @@ describe('INSERT', () => {
 
   it('should insert word correctly when calling insert', () => {
     trie.insert('apple');
-    trie.insert('dpg');
-    console.log(JSON.stringify(trie, null, 4));
+    trie.insert('dog');
 
     expect(Object.keys(trie.rootNode.children)).to.deep.eq(['a', 'd']);
   });
@@ -59,16 +61,24 @@ describe('SUGGEST', () => {
   });
   
   it('should be able to suggest words based on a prefix', () => {
+    trie.insert('ape');
     trie.insert('apple');
     trie.insert('applesauce');
-    trie.insert('ape');
-    console.log(JSON.stringify(trie, null, 4));
 
-    // console.log()
-    trie.suggest('ap');
-    // expect(Object.keys(trie.rootNode.children)).to.eq(['apple', 'ape']);
+    expect(trie.suggest('ap')).to.deep.eq(['ape', 'apple', 'applesauce'])
+  });
+
+});
+
+describe('POPULATE', () => {
+  let trie;
+  
+  it('should populate when passing in the dictionary', () => {
+    trie = new Trie();
+
+    expect(trie.count()).to.eq(0);
+    trie.populate(dictionary);
+    expect(trie.count()).to.eq(235886);
   });
   
-  it.skip('should ', () => {});
-
 });
